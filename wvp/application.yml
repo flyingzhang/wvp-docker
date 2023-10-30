@@ -24,6 +24,10 @@ spring:
     username: root
     password: root
     type: com.zaxxer.hikari.HikariDataSource
+<<<<<<< HEAD
+=======
+    # type: com.alibaba.druid.pool.DruidDataSource
+>>>>>>> 0e43659 (update docker-compose to build image from configuration in git repo)
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 # [可选] WVP监听的HTTP端口, 网页和接口调用都是这个端口

@@ -1,15 +1,17 @@
 FROM ubuntu:20.04 AS build
 
-ARG gitUrl="https://gitee.com/pan648540858"
+ARG ubuntuMirrorSite="mirrors.aliyun.com"
 
-RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+RUN sed -i "s#archive.ubuntu.com#${ubuntuMirrorSite}#g" /etc/apt/sources.list && \
+    export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends openjdk-11-jdk git maven nodejs npm ca-certificates && \
     apt autoremove -y && \
     apt clean -y && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /opt/wvp/config /opt/wvp/heapdump
+
+ARG gitUrl="https://gitee.com/pan648540858"
 
 RUN cd /home && \
     git clone "${gitUrl}/maven.git" && \
@@ -18,6 +20,8 @@ RUN cd /home && \
 RUN cd /home && \
     git clone "${gitUrl}/wvp-GB28181-pro.git"
 
+ARG npmRegistry="https://registry.npmmirror.com"
+RUN npm config set registry ${npmRegistry}
 RUN cd /home/wvp-GB28181-pro/web_src && \
     npm install && \
     npm run build
@@ -36,13 +40,11 @@ RUN cd /opt/wvp && \
 
 FROM ubuntu:20.04
 
-EXPOSE 5060/tcp
-EXPOSE 5060/udp
-EXPOSE 18080/tcp
+ARG ubuntuMirrorSite="mirrors.aliyun.com"
 
-RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+RUN sed -i "s#archive.ubuntu.com#${ubuntuMirrorSite}#g" /etc/apt/sources.list && \
+    export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends tzdata openjdk-11-jre ca-certificates language-pack-zh-hans && \
     apt-get autoremove -y && \
     apt-get clean -y && \
@@ -55,5 +57,10 @@ RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
     mkdir -p /opt/media/bin/www
 
 COPY --from=build /opt /opt
+
+EXPOSE 5060/tcp
+EXPOSE 5060/udp
+EXPOSE 18080/tcp
+
 WORKDIR /opt/wvp
 CMD ["sh", "run.sh"]

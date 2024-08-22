@@ -1,3 +1,6 @@
+create database if not exists wvp default character set utf8mb4 collate utf8mb4_general_ci;
+use wvp;
+
 /*建表*/
 create table wvp_device (
                             id serial primary key ,

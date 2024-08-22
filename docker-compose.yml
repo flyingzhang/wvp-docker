@@ -24,16 +24,12 @@ services:
       - mysql
 
   zlm:
-<<<<<<< HEAD
-    build: ./zlm
-=======
-    image: taoxin/zlm
+    #image: taoxin/zlm
     build:
       context: ./zlm
       args:
         ubuntuMirrorSite: "mirrors.aliyun.com"
         githubProxy: "http://10.66.66.4:3128/"
->>>>>>> 0e43659 (update docker-compose to build image from configuration in git repo)
     restart: always
     networks:
       - network-wvp
@@ -57,9 +53,6 @@ services:
       - redis
 
   wvp:
-<<<<<<< HEAD
-    build: ./wvp
-=======
     # image: taoxin/wvp
     build:
       context: ./wvp
@@ -67,15 +60,14 @@ services:
         ubuntuMirrorSite: "mirrors.aliyun.com"
         githubProxy: "http://10.66.66.4:3128/"
 
->>>>>>> 0e43659 (update docker-compose to build image from configuration in git repo)
     restart: always
     networks:
       - network-wvp
     environment:
-      - STREAM_IP=192.168.3.176 #流IP，外网
-      - SDP_IP=192.168.3.176 #SDP协议IP，国标信令中使用的IP，此IP为摄像机可以访问到的IP，外网
+      - STREAM_IP=192.168.112.136 #流IP，外网
+      - SDP_IP=192.168.112.136 #SDP协议IP，国标信令中使用的IP，此IP为摄像机可以访问到的IP，外网
       - HOOK_IP=wvp #zlm服务器访问wvp的IP
-      - WVP_SHOW_IP=192.168.3.176 #对外显示IP，一般用外网
+      - WVP_SHOW_IP=192.168.112.136  #对外显示IP，一般用外网
       - WVP_PORT=5060 #国标端口
       - WVP_DOMAIN=6202000049
       - WVP_ID=62020000492000000001

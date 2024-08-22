@@ -23,12 +23,13 @@ ARG githubProxy
 RUN git config --global http.https://github.com.proxy ${githubProxy}
 RUN mkdir -p /opt/media && \
     cd /opt/media && \
+    git clone "https://github.com/sctplab/usrsctp.git" && \
+    cd usrsctp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=${MODEL} .. && make install && cd ../../ && \
     git clone --depth=1 "https://gitee.com/xia-chu/ZLMediaKit.git" && \
-    cd ZLMediaKit && \
-    git submodule update --init --recursive && \
+    cd ZLMediaKit &&  git submodule update --init --recursive && \
     mkdir -p build && \
     cd build && \
-    cmake -DCMAKE_BUILD_TYPE=${MODEL} -DENABLE_WEBRTC=true .. && \
+    cmake -DCMAKE_BUILD_TYPE=${MODEL} .. && \
     make -j8
 
 FROM ubuntu:20.04

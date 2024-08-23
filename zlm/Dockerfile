@@ -49,6 +49,7 @@ RUN sed -i "s#archive.ubuntu.com#${ubuntuMirrorSite}#g" /etc/apt/sources.list &&
 
 ARG MODEL=Release
 COPY --from=build /opt/media/ZLMediaKit/release/linux/${MODEL}/MediaServer /opt/media/ZLMediaKit/default.pem /opt/media/bin/
+COPY --from=build /opt/media/usrsctp/build/usrsctplib/libusrsctp.*  /usr/local/lib
 COPY --from=build /opt/media/ZLMediaKit/www/ /opt/media/bin/www/
 COPY config.ini /opt/media/conf/config.ini
 COPY docker-entrypoint.sh /opt/media/docker-entrypoint.sh

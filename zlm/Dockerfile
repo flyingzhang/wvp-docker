@@ -24,7 +24,7 @@ RUN git config --global http.https://github.com.proxy ${githubProxy}
 RUN mkdir -p /opt/media && \
     cd /opt/media && \
     git clone "https://github.com/sctplab/usrsctp.git" && \
-    cd usrsctp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=${MODEL} .. && make install && cd ../../ && \
+    cd usrsctp && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=${MODEL} -Dsctp_build_shared_lib=1 .. && make install && cd ../../ && \
     git clone --depth=1 "https://gitee.com/xia-chu/ZLMediaKit.git" && \
     cd ZLMediaKit &&  git submodule update --init --recursive && \
     mkdir -p build && \

@@ -1,6 +1,7 @@
 version: "3"
 services:
   mysql:
+    container_name: mtx-db
     image: mysql
     restart: always
     networks:
@@ -14,6 +15,7 @@ services:
       - ./wvp/sql:/docker-entrypoint-initdb.d
 
   redis:
+    container_name: mtx-redis
     image: redis:alpine
     restart: always
     networks:
@@ -25,6 +27,7 @@ services:
 
   zlm:
     #image: taoxin/zlm
+    container_name: mtx-zlm
     build:
       context: ./zlm
       args:
@@ -54,6 +57,7 @@ services:
 
   wvp:
     # image: taoxin/wvp
+    container_name: mtx-wvp
     build:
       context: ./wvp
       args:
